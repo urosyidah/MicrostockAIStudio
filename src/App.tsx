@@ -22,7 +22,7 @@ import {
   Film,
 } from "lucide-react";
 
-// --- Komponen UI (Fixed for TypeScript) ---
+// --- BAGIAN INI SUDAH DIPERBAIKI (Ada tambahan : any) ---
 const Card = ({ children, className = "" }: any) => (
   <div
     className={`bg-white dark:bg-slate-800 rounded-xl shadow-lg border border-slate-200 dark:border-slate-700 p-6 ${className}`}
@@ -235,7 +235,7 @@ const stockKeywords = {
     "lifestyle, happiness, leisure, healthy, daily life, authentic, people",
 };
 
-export default function MicrostockHelperMetaVideo() {
+export default function MicrostockHelper() {
   const [activeTab, setActiveTab] = useState("prompt");
   const [copied, setCopied] = useState("");
 
@@ -548,7 +548,7 @@ export default function MicrostockHelperMetaVideo() {
                   </div>
                 )}
 
-                {/* VIDEO MODEL BUTTONS */}
+                {/* VIDEO MODEL BUTTONS - Updated with META VIDEO */}
                 {mode === "video" && (
                   <div className="flex flex-wrap gap-2">
                     <button
@@ -862,7 +862,7 @@ export default function MicrostockHelperMetaVideo() {
           </div>
         )}
 
-        {/* Metadata Tab */}
+        {/* Metadata Tab (No Change) */}
         {activeTab === "metadata" && (
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6 animate-in fade-in slide-in-from-bottom-4 duration-500">
             <div className="space-y-6">
