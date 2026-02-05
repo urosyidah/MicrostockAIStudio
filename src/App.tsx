@@ -22,8 +22,8 @@ import {
   Film,
 } from "lucide-react";
 
-// --- Komponen UI ---
-const Card = ({ children, className = "" }) => (
+// --- Komponen UI (Fixed for TypeScript) ---
+const Card = ({ children, className = "" }: any) => (
   <div
     className={`bg-white dark:bg-slate-800 rounded-xl shadow-lg border border-slate-200 dark:border-slate-700 p-6 ${className}`}
   >
@@ -31,20 +31,20 @@ const Card = ({ children, className = "" }) => (
   </div>
 );
 
-const Label = ({ children }) => (
+const Label = ({ children }: any) => (
   <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1">
     {children}
   </label>
 );
 
-const Select = ({ value, onChange, options, placeholder }) => (
+const Select = ({ value, onChange, options, placeholder }: any) => (
   <select
     value={value}
     onChange={onChange}
     className="w-full p-2.5 rounded-lg border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-700 text-slate-900 dark:text-white focus:ring-2 focus:ring-blue-500 outline-none transition-all"
   >
     {placeholder && <option value="">{placeholder}</option>}
-    {options.map((opt, idx) => (
+    {options.map((opt: any, idx: number) => (
       <option key={idx} value={opt.value || opt}>
         {opt.label || opt}
       </option>
@@ -52,7 +52,7 @@ const Select = ({ value, onChange, options, placeholder }) => (
   </select>
 );
 
-const Input = ({ value, onChange, placeholder, disabled = false }) => (
+const Input = ({ value, onChange, placeholder, disabled = false }: any) => (
   <input
     type="text"
     value={value}
@@ -67,7 +67,7 @@ const Input = ({ value, onChange, placeholder, disabled = false }) => (
   />
 );
 
-const TextArea = ({ value, onChange, placeholder, rows = 3 }) => (
+const TextArea = ({ value, onChange, placeholder, rows = 3 }: any) => (
   <textarea
     value={value}
     onChange={onChange}
@@ -77,8 +77,13 @@ const TextArea = ({ value, onChange, placeholder, rows = 3 }) => (
   />
 );
 
-const Button = ({ onClick, children, variant = "primary", className = "" }) => {
-  const variants = {
+const Button = ({
+  onClick,
+  children,
+  variant = "primary",
+  className = "",
+}: any) => {
+  const variants: any = {
     primary: "bg-blue-600 hover:bg-blue-700 text-white",
     secondary:
       "bg-slate-200 hover:bg-slate-300 dark:bg-slate-700 dark:hover:bg-slate-600 text-slate-900 dark:text-white",
@@ -234,10 +239,7 @@ export default function MicrostockHelperMetaVideo() {
   const [activeTab, setActiveTab] = useState("prompt");
   const [copied, setCopied] = useState("");
 
-  // State Mode: 'photo' atau 'video'
   const [mode, setMode] = useState("photo");
-
-  // State AI Model
   const [aiModel, setAiModel] = useState("midjourney");
 
   const defaultExclude =
@@ -267,7 +269,6 @@ export default function MicrostockHelperMetaVideo() {
   const [generatedDesc, setGeneratedDesc] = useState("");
   const [generatedTitle, setGeneratedTitle] = useState("");
 
-  // Update AI Model default saat Mode berubah
   useEffect(() => {
     if (mode === "photo") {
       setAiModel("midjourney");
@@ -276,24 +277,18 @@ export default function MicrostockHelperMetaVideo() {
     }
   }, [mode]);
 
-  // --- LOGIC GENERATE PROMPT ---
   useEffect(() => {
-    // 1. Base Prompt
     let p = `${promptState.subject}`;
     if (promptState.action) p += `, ${promptState.action}`;
     if (promptState.style) p += `, ${promptState.style}`;
     if (promptState.lighting) p += `, ${promptState.lighting}`;
 
-    // Camera always added to positive core
     if (promptState.camera) p += `, ${promptState.camera}`;
 
-    // 2. Logic khusus Video vs Photo
     let finalPrompt = "";
-    const motionText = promptState.motion; // Ambil teks motion
+    const motionText = promptState.motion;
 
-    // --- PHOTO MODELS ---
     if (mode === "photo") {
-      // Logic Magic Enhancer per Model
       if (promptState.useMagic) {
         if (aiModel === "meta") {
           p += ", realistic, high quality";
@@ -305,7 +300,6 @@ export default function MicrostockHelperMetaVideo() {
         }
       }
 
-      // Switch Photo Models
       switch (aiModel) {
         case "midjourney":
           finalPrompt = `${p} ${promptState.ratio} --no ${promptState.exclude} --stylize 250`;
@@ -313,7 +307,7 @@ export default function MicrostockHelperMetaVideo() {
         case "dalle":
           finalPrompt = `Create an image of ${p}. (IMPORTANT: Ensure the image does NOT show any cameras, tripods, lighting equipment. Keep the view clean).`;
           break;
-        case "meta": // META AI IMAGE
+        case "meta":
           finalPrompt = `Imagine an image of ${p}. No text, no watermarks.`;
           break;
         case "imagen":
@@ -328,21 +322,17 @@ export default function MicrostockHelperMetaVideo() {
         default:
           finalPrompt = p;
       }
-    }
-    // --- VIDEO MODELS ---
-    else {
-      // Video Prompt Construction
+    } else {
       if (promptState.useMagic) {
         p +=
           ", stock footage, 4k video, high definition, cinematic color grading";
       }
 
       switch (aiModel) {
-        case "veo": // GOOGLE VEO
+        case "veo":
           finalPrompt = `Cinematic video: ${p}. Camera movement: ${motionText}. 4K, HDR, temporal consistency.`;
           break;
-        case "meta_video": // META MOVIE GEN / ANIMATION
-          // Meta suka prompt yang sangat deskriptif dan langsung "Animate..."
+        case "meta_video":
           finalPrompt = `Animate a realistic video of ${p}. ${motionText}. High quality, seamless loop.`;
           break;
         case "runway":
@@ -365,7 +355,6 @@ export default function MicrostockHelperMetaVideo() {
     setGeneratedPrompt(finalPrompt);
   }, [promptState, mode, aiModel]);
 
-  // --- LOGIC METADATA ---
   const generateMetadataFromPrompt = () => {
     const rawTitle = `${promptState.subject} ${promptState.action}`;
     const cleanTitle = rawTitle.replace(/\w\S*/g, (w) =>
@@ -383,7 +372,8 @@ export default function MicrostockHelperMetaVideo() {
       .split(" ")
       .filter((w) => w.length > 2);
     const categoryTags =
-      stockKeywords[metaState.category] || stockKeywords.general;
+      stockKeywords[metaState.category as keyof typeof stockKeywords] ||
+      stockKeywords.general;
     const videoKeywords =
       mode === "video"
         ? ["video", "footage", "clip", "motion", "4k"]
@@ -411,7 +401,7 @@ export default function MicrostockHelperMetaVideo() {
       "_blank"
     );
 
-  const handleCopy = (text, type) => {
+  const handleCopy = (text: string, type: string) => {
     const textArea = document.createElement("textarea");
     textArea.value = text;
     textArea.style.position = "fixed";
@@ -427,7 +417,7 @@ export default function MicrostockHelperMetaVideo() {
   };
 
   const getModelName = () => {
-    const names = {
+    const names: any = {
       midjourney: "Midjourney v6",
       dalle: "DALL-E 3",
       meta: "Meta AI (Image)",
@@ -558,7 +548,7 @@ export default function MicrostockHelperMetaVideo() {
                   </div>
                 )}
 
-                {/* VIDEO MODEL BUTTONS - Updated with META VIDEO */}
+                {/* VIDEO MODEL BUTTONS */}
                 {mode === "video" && (
                   <div className="flex flex-wrap gap-2">
                     <button
@@ -633,7 +623,7 @@ export default function MicrostockHelperMetaVideo() {
                     <Label>Subjek Utama</Label>
                     <Input
                       value={promptState.subject}
-                      onChange={(e) =>
+                      onChange={(e: any) =>
                         setPromptState({
                           ...promptState,
                           subject: e.target.value,
@@ -650,7 +640,7 @@ export default function MicrostockHelperMetaVideo() {
                     <Label>Aktivitas / Latar</Label>
                     <Input
                       value={promptState.action}
-                      onChange={(e) =>
+                      onChange={(e: any) =>
                         setPromptState({
                           ...promptState,
                           action: e.target.value,
@@ -666,7 +656,7 @@ export default function MicrostockHelperMetaVideo() {
                       <Select
                         options={styleOptions}
                         value={promptState.style}
-                        onChange={(e) =>
+                        onChange={(e: any) =>
                           setPromptState({
                             ...promptState,
                             style: e.target.value,
@@ -679,7 +669,7 @@ export default function MicrostockHelperMetaVideo() {
                       <Select
                         options={lightingOptions}
                         value={promptState.lighting}
-                        onChange={(e) =>
+                        onChange={(e: any) =>
                           setPromptState({
                             ...promptState,
                             lighting: e.target.value,
@@ -701,7 +691,7 @@ export default function MicrostockHelperMetaVideo() {
                       <Select
                         options={motionOptions}
                         value={promptState.motion}
-                        onChange={(e) =>
+                        onChange={(e: any) =>
                           setPromptState({
                             ...promptState,
                             motion: e.target.value,
@@ -717,7 +707,7 @@ export default function MicrostockHelperMetaVideo() {
                       <Select
                         options={cameraOptions}
                         value={promptState.camera}
-                        onChange={(e) =>
+                        onChange={(e: any) =>
                           setPromptState({
                             ...promptState,
                             camera: e.target.value,
@@ -730,7 +720,7 @@ export default function MicrostockHelperMetaVideo() {
                       <Select
                         options={ratioOptions}
                         value={promptState.ratio}
-                        onChange={(e) =>
+                        onChange={(e: any) =>
                           setPromptState({
                             ...promptState,
                             ratio: e.target.value,
@@ -746,7 +736,7 @@ export default function MicrostockHelperMetaVideo() {
                       <TextArea
                         rows={2}
                         value={promptState.exclude}
-                        onChange={(e) =>
+                        onChange={(e: any) =>
                           setPromptState({
                             ...promptState,
                             exclude: e.target.value,
@@ -872,7 +862,7 @@ export default function MicrostockHelperMetaVideo() {
           </div>
         )}
 
-        {/* Metadata Tab (No Change) */}
+        {/* Metadata Tab */}
         {activeTab === "metadata" && (
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6 animate-in fade-in slide-in-from-bottom-4 duration-500">
             <div className="space-y-6">
@@ -892,7 +882,7 @@ export default function MicrostockHelperMetaVideo() {
                         { value: "lifestyle", label: "Lifestyle" },
                       ]}
                       value={metaState.category}
-                      onChange={(e) =>
+                      onChange={(e: any) =>
                         setMetaState({ ...metaState, category: e.target.value })
                       }
                     />
@@ -901,7 +891,7 @@ export default function MicrostockHelperMetaVideo() {
                     <Label>Keyword Tambahan</Label>
                     <Input
                       value={metaState.customTags}
-                      onChange={(e) =>
+                      onChange={(e: any) =>
                         setMetaState({
                           ...metaState,
                           customTags: e.target.value,
@@ -946,7 +936,7 @@ export default function MicrostockHelperMetaVideo() {
                     <p className="text-xs text-slate-400 mb-1">Deskripsi:</p>
                     <TextArea
                       value={generatedDesc}
-                      onChange={(e) => setGeneratedDesc(e.target.value)}
+                      onChange={(e: any) => setGeneratedDesc(e.target.value)}
                       rows={4}
                     />
                     <button
