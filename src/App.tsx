@@ -103,14 +103,15 @@ const Button = ({
 
 // --- DATA PRESET ---
 const styleOptions = [
+  // --- FOTOGRAFI ---
   {
-    label: "Realistis Sinematik",
+    label: "Realistis Sinematik (Film)",
     value:
       "Cinematic movie scene, highly detailed, 8k resolution, hyperrealistic visual",
     keywords: "cinematic, movie style, realistic, 8k, drama",
   },
   {
-    label: "Komersial Bersih (Clean)",
+    label: "Komersial Bersih (Stock Photo)",
     value:
       "High-end commercial imagery, clean solid background, minimalist composition, sharp details, product aesthetics",
     keywords: "commercial, clean, sharp, isolated, minimalist",
@@ -122,20 +123,43 @@ const styleOptions = [
     keywords: "interior, modern, home design, architecture, indoor",
   },
   {
-    label: "GREEN SCREEN (Background Hijau)",
+    label: "Flat Lay (Foto dari Atas)",
+    value:
+      "Knolling photography, flat lay composition, view from directly above, organized arrangement",
+    keywords: "flat lay, knolling, top view, organized, overhead",
+  },
+  {
+    label: "Macro Photography (Detail)",
+    value:
+      "Extreme macro photography, sharp details, blurry background (bokeh)",
+    keywords: "macro, closeup, detail, bokeh, texture",
+  },
+
+  // --- ILUSTRASI & 3D ---
+  {
+    label: "Vektor 2D (Flat Design)",
+    value:
+      "Flat vector illustration, simple shapes, clean lines, white background, no gradients, minimal design",
+    keywords:
+      "vector, illustration, flat design, graphics, clipart, isolated, svg style",
+  },
+  {
+    label: "3D Icon / Isometrik",
+    value:
+      "3D isometric icon, clay render style, soft shadows, cute, pastel colors, 3d blender",
+    keywords: "3d icon, isometric, clay, cute, 3d render",
+  },
+  {
+    label: "Digital Art / Abstrak",
+    value:
+      "Abstract digital art, flowing shapes, vibrant colors, wallpaper style",
+    keywords: "abstract, background, texture, pattern, wallpaper, design",
+  },
+  {
+    label: "GREEN SCREEN",
     value:
       "Subject on solid green background, chroma key color, isolated subject",
     keywords: "green screen, chroma key, isolated, blank background",
-  },
-  {
-    label: "Macro Detail",
-    value: "Extreme close-up macro view, detailed texture, bokeh background",
-    keywords: "macro, closeup, detail, bokeh, texture",
-  },
-  {
-    label: "3D Render (Abstrak)",
-    value: "3D render, Unreal Engine 5 style, digital art masterpiece",
-    keywords: "3d, render, cgi, digital art, abstract",
   },
 ];
 
@@ -152,9 +176,21 @@ const lightingOptions = [
     keywords: "soft light, bright, clean, diffused, airy",
   },
   {
+    label: "Studio Hard Light (Kontras)",
+    value:
+      "Hard studio lighting, strong shadows, fashion photography style, high contrast",
+    keywords: "hard light, contrast, fashion, strong shadows, studio",
+  },
+  {
     label: "Golden Hour (Sore Hari)",
     value: "Golden hour glow, warm sunset colors, sun flare",
     keywords: "golden hour, sunset, sunrise, warm",
+  },
+  {
+    label: "God Rays (Volumetric)",
+    value:
+      "Volumetric lighting, god rays shining through, dusty atmosphere, tyndall effect",
+    keywords: "god rays, volumetric, atmospheric, shafts of light, misty",
   },
   {
     label: "Siang Cerah (Clear Sky)",
@@ -167,7 +203,7 @@ const lightingOptions = [
     keywords: "neon, cyberpunk, night, colorful, futuristic",
   },
   {
-    label: "Dramatis (Kontras Tinggi)",
+    label: "Dramatis (Moody)",
     value: "Dramatic contrast, chiaroscuro, rim light effect, moody atmosphere",
     keywords: "dramatic, rim light, contrast, dark, moody",
   },
@@ -205,13 +241,28 @@ const motionOptions = [
 
 const cameraOptions = [
   {
-    label: "Lensa Potret (Fokus Orang)",
-    value: "50mm focal length style, shallow depth of field",
+    label: "Lensa Standar (35mm - Cerita)",
+    value: "35mm lens, street photography style, natural perspective",
   },
-  { label: "Lensa Lebar (Pemandangan)", value: "16mm wide angle perspective" },
   {
-    label: "Lensa Tele (Blur Background)",
-    value: "200mm focal length style, blurred background",
+    label: "Lensa Potret (50mm/85mm - Bokeh)",
+    value: "85mm portrait lens, f/1.8 aperture, creamy bokeh background",
+  },
+  {
+    label: "Lensa Lebar (16mm - Landscape)",
+    value: "16mm wide angle lens, expansive view, distortion at edges",
+  },
+  {
+    label: "Lensa Tele (200mm - Zoom Jauh)",
+    value: "200mm telephoto lens, compression effect, blurred background",
+  },
+  {
+    label: "Lensa Makro (100mm - Serangga/Bunga)",
+    value: "100mm macro lens, extreme detail, microscopic view",
+  },
+  {
+    label: "GoPro / Fisheye (Action)",
+    value: "Fisheye lens effect, action camera style, distorted wide view",
   },
 ];
 
