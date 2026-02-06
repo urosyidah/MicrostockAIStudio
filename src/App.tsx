@@ -226,13 +226,22 @@ const stockKeywords = {
   general:
     "no people, copy space, high quality, commercial use, stock, 4k, hd, generative ai",
   business:
-    "business, corporate, professional, office, success, teamwork, modern, finance",
+    "business, corporate, professional, office, success, teamwork, modern, finance, career",
   technology:
-    "technology, innovation, future, digital, tech, ai, cyber, computing",
+    "technology, innovation, future, digital, tech, ai, cyber, computing, software, hardware, electronics",
   nature:
-    "nature, landscape, outdoor, environment, beauty, scenic, travel, earth",
+    "nature, landscape, outdoor, environment, beauty, scenic, travel, earth, green, eco",
   lifestyle:
-    "lifestyle, happiness, leisure, healthy, daily life, authentic, people",
+    "lifestyle, happiness, leisure, healthy, daily life, authentic, people, candid, activity",
+  food: "food, delicious, gourmet, meal, healthy, nutrition, fresh, organic, tasty, cuisine, culinary",
+  travel:
+    "travel, tourism, vacation, holiday, destination, adventure, landmark, trip, journey",
+  abstract:
+    "abstract, background, texture, pattern, wallpaper, design, art, creative, backdrop",
+  portrait:
+    "portrait, face, person, model, human, expression, eyes, looking at camera, headshot",
+  interior:
+    "interior, home, decor, furniture, room, modern, architecture, luxury, design, house",
 };
 
 export default function App() {
@@ -894,8 +903,14 @@ export default function App() {
                       options={[
                         { value: "general", label: "Umum" },
                         { value: "business", label: "Bisnis" },
+                        { value: "technology", label: "Teknologi" },
                         { value: "nature", label: "Alam" },
-                        { value: "lifestyle", label: "Lifestyle" },
+                        { value: "lifestyle", label: "Gaya Hidup" },
+                        { value: "food", label: "Kuliner / Makanan" },
+                        { value: "travel", label: "Travel / Liburan" },
+                        { value: "abstract", label: "Abstrak / Background" },
+                        { value: "portrait", label: "Potret Wajah" },
+                        { value: "interior", label: "Interior Rumah" },
                       ]}
                       value={metaState.category}
                       onChange={(e: any) =>
