@@ -22,7 +22,7 @@ import {
   Film,
 } from "lucide-react";
 
-// --- BAGIAN INI SUDAH DIPERBAIKI (Ada tambahan : any) ---
+// --- Komponen UI (Fixed for TypeScript) ---
 const Card = ({ children, className = "" }: any) => (
   <div
     className={`bg-white dark:bg-slate-800 rounded-xl shadow-lg border border-slate-200 dark:border-slate-700 p-6 ${className}`}
@@ -235,7 +235,7 @@ const stockKeywords = {
     "lifestyle, happiness, leisure, healthy, daily life, authentic, people",
 };
 
-export default function MicrostockHelper() {
+export default function App() {
   const [activeTab, setActiveTab] = useState("prompt");
   const [copied, setCopied] = useState("");
 
@@ -269,6 +269,7 @@ export default function MicrostockHelper() {
   const [generatedDesc, setGeneratedDesc] = useState("");
   const [generatedTitle, setGeneratedTitle] = useState("");
 
+  // Update AI Model default saat Mode berubah
   useEffect(() => {
     if (mode === "photo") {
       setAiModel("midjourney");
@@ -277,18 +278,24 @@ export default function MicrostockHelper() {
     }
   }, [mode]);
 
+  // --- LOGIC GENERATE PROMPT ---
   useEffect(() => {
+    // 1. Base Prompt
     let p = `${promptState.subject}`;
     if (promptState.action) p += `, ${promptState.action}`;
     if (promptState.style) p += `, ${promptState.style}`;
     if (promptState.lighting) p += `, ${promptState.lighting}`;
 
+    // Camera always added to positive core
     if (promptState.camera) p += `, ${promptState.camera}`;
 
+    // 2. Logic khusus Video vs Photo
     let finalPrompt = "";
-    const motionText = promptState.motion;
+    const motionText = promptState.motion; // Ambil teks motion
 
+    // --- PHOTO MODELS ---
     if (mode === "photo") {
+      // Logic Magic Enhancer per Model
       if (promptState.useMagic) {
         if (aiModel === "meta") {
           p += ", realistic, high quality";
@@ -300,6 +307,7 @@ export default function MicrostockHelper() {
         }
       }
 
+      // Switch Photo Models
       switch (aiModel) {
         case "midjourney":
           finalPrompt = `${p} ${promptState.ratio} --no ${promptState.exclude} --stylize 250`;
@@ -307,7 +315,7 @@ export default function MicrostockHelper() {
         case "dalle":
           finalPrompt = `Create an image of ${p}. (IMPORTANT: Ensure the image does NOT show any cameras, tripods, lighting equipment. Keep the view clean).`;
           break;
-        case "meta":
+        case "meta": // META AI IMAGE
           finalPrompt = `Imagine an image of ${p}. No text, no watermarks.`;
           break;
         case "imagen":
@@ -322,17 +330,21 @@ export default function MicrostockHelper() {
         default:
           finalPrompt = p;
       }
-    } else {
+    }
+    // --- VIDEO MODELS ---
+    else {
+      // Video Prompt Construction
       if (promptState.useMagic) {
         p +=
           ", stock footage, 4k video, high definition, cinematic color grading";
       }
 
       switch (aiModel) {
-        case "veo":
+        case "veo": // GOOGLE VEO
           finalPrompt = `Cinematic video: ${p}. Camera movement: ${motionText}. 4K, HDR, temporal consistency.`;
           break;
-        case "meta_video":
+        case "meta_video": // META MOVIE GEN / ANIMATION
+          // Meta suka prompt yang sangat deskriptif dan langsung "Animate..."
           finalPrompt = `Animate a realistic video of ${p}. ${motionText}. High quality, seamless loop.`;
           break;
         case "runway":
@@ -355,6 +367,7 @@ export default function MicrostockHelper() {
     setGeneratedPrompt(finalPrompt);
   }, [promptState, mode, aiModel]);
 
+  // --- LOGIC METADATA ---
   const generateMetadataFromPrompt = () => {
     const rawTitle = `${promptState.subject} ${promptState.action}`;
     const cleanTitle = rawTitle.replace(/\w\S*/g, (w) =>
@@ -385,9 +398,12 @@ export default function MicrostockHelper() {
       ...metaState.customTags.split(",").map((s) => s.trim()),
       ...categoryTags.split(", ").map((s) => s.trim()),
     ];
-    const uniqueTags = [...new Set(tags)]
-      .filter((t) => t && t.length > 2)
+
+    // --- PERBAIKAN: Menggunakan Array.from untuk Set agar kompatibel dengan pengaturan TS yang ketat
+    const uniqueTags = Array.from(new Set(tags))
+      .filter((t: any) => t && t.length > 2)
       .join(", ");
+
     setGeneratedTags(uniqueTags);
   };
 

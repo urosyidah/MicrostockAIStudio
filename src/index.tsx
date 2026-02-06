@@ -1,11 +1,12 @@
 import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
 
-// Pastikan ini mengarah ke file App yang baru Anda edit
 import App from "./App";
 
 const rootElement = document.getElementById("root");
-const root = createRoot(rootElement);
+// Tanda seru (!) di bawah ini sangat PENTING untuk TypeScript
+// Itu memberi tahu sistem: "Saya yakin elemen 'root' pasti ada, jangan khawatir."
+const root = createRoot(rootElement!);
 
 root.render(
   <StrictMode>
