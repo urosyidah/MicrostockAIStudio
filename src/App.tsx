@@ -240,6 +240,13 @@ const motionOptions = [
 ];
 
 const cameraOptions = [
+  // --- KHUSUS DIGITAL ART (Pilih ini untuk Vektor/3D) ---
+  {
+    label: "Tanpa Lensa (Digital/Vektor/3D)",
+    value: "in focus, sharp focus, no blur, digital artwork, flat focus",
+  },
+
+  // --- LENSA FOTOGRAFI ---
   {
     label: "Lensa Standar (35mm - Cerita)",
     value: "35mm lens, street photography style, natural perspective",
